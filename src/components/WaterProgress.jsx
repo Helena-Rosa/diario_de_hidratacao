@@ -1,15 +1,15 @@
 import { Text, View } from "react-native";
 
-export function WaterProgress( {consumido=666, objetivo=2000} ){
+export function WaterProgress( {consumed, goal} ){
 
-const porcentagem = (consumido/objetivo)*100
+const percentage = Math.min(Math.round((consumed/goal)*100),100)
     return(
         <View>
-            <Text>Voce bebeu 250ml de agua hoje</Text>
-            <Text>Voce atingiu {porcentagem}% da Meta</Text>
+            <Text>Voce bebeu {consumed}ml de agua hoje</Text>
+            <Text>Voce atingiu {percentage}% da Meta</Text>
             {/* {barra azul} */}
-            <View>
-                <View />
+            <View style={{width:'100%', height:'30', backgroundColor: 'red'}}>
+                <View style={{height: '100%', backgroundColor:'green', width: `${percentage}`}}/>
             </View>
         </View>
     )
