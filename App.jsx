@@ -1,37 +1,47 @@
-import { StatusBar, View, Text, StyleSheet} from "react-native";
-import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
-import { Header } from "./src/components/Header";
-import { WaterProgress } from "./src/components/WaterProgress";
-import ActionButtons from "./src/components/ActionButtons";
+import React, { useState } from 'react';
+import { StyleSheet, View, StatusBar } from 'react-native';
+import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 
+import { COLORS } from './src/constants/colors';
+import { Header } from './src/components/Header';
+import { WaterProgress } from './src/components/WaterProgress';
+import { ActionButtons } from './src/components/ActionButtons';
 
+export default function App() {
+  const [goal, setGoal] = useState(3000);
+  const [consumed, setConsumed] = useState(0);
 
-export default function App(){
- const GOAL = 2000
-  
-  return(
+  const handleAddWater = (ml) => {
+    setConsumed((memoria) => memoria + ml);
+  };
+
+  const handleReset = () => {
+    setConsumed(0);
+  };
+
+  return (
     <SafeAreaProvider>
-      <SafeAreaView> 
-      <StatusBar barStyle={'auto'}/>
-      <View>
-        <Header goal={GOAL}/>
-        <WaterProgress consumido={200} goal={GOAL}/>
-      </View>
+      <SafeAreaView style={styles.container}>
+        <StatusBar barStyle="dark-content" backgroundColor={COLORS.background} />
+
+        <View style={styles.content}>
+          <Header goal={goal} />
+          <WaterProgress consumed={consumed} goal={goal} />
+          <ActionButtons onAdd={handleAddWater} onReset={handleReset} />
+        </View>
       </SafeAreaView>
     </SafeAreaProvider>
-  )
+  );
 }
 
-// const styles = StyleSheet.create({
-//   texto:{
-//     color:'#020202',
-//     fontSize:15,
-    
-//   },
-//   container:{
-//     backgroundColor: 'yellow',
-//     height: '100%',
-//     alignItems: 'center',
-//     justifyContent: 'center',
-//   },
-// })
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: COLORS.background,
+  },
+  content: {
+    flex: 1,
+    padding: 24,
+    alignItems: 'center',
+  },
+});
